@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
+@Table(name = "trips")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -42,12 +43,13 @@ public class Trip {
     private LocalDateTime createdAt;
 
     public Trip(TripRequestPayload payload) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         this.destination = payload.destination();
         this.isConfirmed = false;
-        this.startsAt = LocalDateTime.parse(payload.startsAt(), DateTimeFormatter.ISO_DATE_TIME);
-        this.endsAt = LocalDateTime.parse(payload.endsAt(), DateTimeFormatter.ISO_DATE_TIME);
-        this.ownerName = payload.ownerName();
-        this.ownerEmail = payload.ownerEmail();
-        this.createdAt =LocalDateTime.now();
+        this.startsAt = LocalDateTime.parse(payload.starts_at(), formatter);
+        this.endsAt = LocalDateTime.parse(payload.ends_at(), formatter);
+        this.ownerName = payload.owner_name();
+        this.ownerEmail = payload.owner_email();
+        this.createdAt = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
     }
 }
