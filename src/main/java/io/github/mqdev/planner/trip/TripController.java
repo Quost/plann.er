@@ -19,12 +19,12 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<Trip> createTrip(@RequestBody TripRequestPayload tripRequest) {
+    public ResponseEntity<TripCreateResponse> createTrip(@RequestBody TripCreatePayload tripRequest) {
         try {
             Trip trip = new Trip(tripRequest);
             var savedTrip = tripRepository.save(trip);
             participantService.registerParticipantsToTrip(tripRequest.emails_to_invite(), savedTrip.getId());
-            return ResponseEntity.ok(savedTrip);
+            return ResponseEntity.ok(new TripCreateResponse(savedTrip.getId(), savedTrip.getCreatedAt()));
         } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
