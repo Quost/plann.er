@@ -1,7 +1,6 @@
 package io.github.mqdev.planner.trip;
 
 import io.github.mqdev.planner.participant.ParticipantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +9,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/trips")
 public class TripController {
 
-    @Autowired
-    private ParticipantService participantService;
+    private final ParticipantService participantService;
 
-    @Autowired
-    private TripRepository tripRepository;
+    private final TripRepository tripRepository;
+
+    public TripController(ParticipantService participantService, TripRepository tripRepository) {
+        this.participantService = participantService;
+        this.tripRepository = tripRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Trip> createTrip(@RequestBody TripRequestPayload tripRequest) {
