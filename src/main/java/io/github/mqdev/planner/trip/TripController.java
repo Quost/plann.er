@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/trips")
 public class TripController {
@@ -29,5 +32,12 @@ public class TripController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @GetMapping("/{tripId}")
+    public ResponseEntity<Trip> getTripDetails(@PathVariable UUID tripId) {
+        Optional<Trip> trip = tripRepository.findById(tripId);
+
+        return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
