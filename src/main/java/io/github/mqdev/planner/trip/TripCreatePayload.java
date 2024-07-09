@@ -2,7 +2,7 @@ package io.github.mqdev.planner.trip;
 
 import java.util.List;
 
-public record TripRequestPayload(
+public record TripCreatePayload(
         String destination,
         String starts_at,
         String ends_at,
