@@ -42,7 +42,7 @@ public class Trip {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    public Trip(TripRequestPayload payload) {
+    public Trip(TripCreatePayload payload) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         this.destination = payload.destination();
         this.isConfirmed = false;
