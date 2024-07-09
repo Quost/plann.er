@@ -22,7 +22,7 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<TripCreateResponse> createTrip(@RequestBody TripCreatePayload tripRequest) {
+    public ResponseEntity<TripCreateResponse> createTrip(@RequestBody TripRequestPayload tripRequest) {
         try {
             Trip trip = new Trip(tripRequest);
             var savedTrip = tripRepository.save(trip);
