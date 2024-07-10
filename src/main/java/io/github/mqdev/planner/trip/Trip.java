@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -51,5 +52,15 @@ public class Trip {
         this.ownerName = payload.owner_name();
         this.ownerEmail = payload.owner_email();
         this.createdAt = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
+    }
+
+    public void update(TripRequestPayload updatedTrip) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+
+        Optional.ofNullable(updatedTrip.destination()).ifPresent(this::setDestination);
+        Optional.ofNullable(updatedTrip.starts_at()).ifPresent(start -> this.setStartsAt(LocalDateTime.parse(start, formatter)));
+        Optional.ofNullable(updatedTrip.ends_at()).ifPresent(end -> this.setEndsAt(LocalDateTime.parse(end, formatter)));
+        Optional.ofNullable(updatedTrip.owner_name()).ifPresent(this::setOwnerName);
+        Optional.ofNullable(updatedTrip.owner_email()).ifPresent(this::setOwnerEmail);
     }
 }

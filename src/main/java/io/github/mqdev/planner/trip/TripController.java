@@ -40,4 +40,18 @@ public class TripController {
 
         return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{tripId}")
+    public ResponseEntity<Trip> updateTrip(@PathVariable UUID tripId, @RequestBody TripRequestPayload payload) {
+        Optional<Trip> trip = tripRepository.findById(tripId);
+
+        if (trip.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Trip updatedTrip = trip.get();
+        updatedTrip.update(payload);
+
+        return ResponseEntity.ok(tripRepository.save(updatedTrip));
+    }
 }
