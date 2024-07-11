@@ -1,5 +1,8 @@
 package io.github.mqdev.planner.trip;
 
+import io.github.mqdev.planner.activities.ActivityCreateResponse;
+import io.github.mqdev.planner.activities.ActivityRequestPayload;
+import io.github.mqdev.planner.activities.ActivityService;
 import io.github.mqdev.planner.participant.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,12 @@ public class TripController {
 
     private final TripRepository tripRepository;
 
-    public TripController(ParticipantService participantService, TripRepository tripRepository) {
+    private final ActivityService activityService;
+
+    public TripController(ParticipantService participantService, TripRepository tripRepository, ActivityService activityService) {
         this.participantService = participantService;
         this.tripRepository = tripRepository;
+        this.activityService = activityService;
     }
 
     @PostMapping
@@ -95,6 +101,20 @@ public class TripController {
         List<ParticipantData> participantList = participantService.getAllTripParticipants(tripId);
 
         return ResponseEntity.ok(participantList);
+    }
+
+    @PostMapping("/{tripId}/activities")
+    public ResponseEntity<ActivityCreateResponse> createActivity(@PathVariable UUID tripId, @RequestBody ActivityRequestPayload payload) {
+        Optional<Trip> trip = tripRepository.findById(tripId);
+
+        if (trip.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Trip updatedTrip = trip.get();
+        ActivityCreateResponse activityResponse = activityService.createActivity(payload, updatedTrip);
+
+        return ResponseEntity.ok(activityResponse);
     }
 
 }
