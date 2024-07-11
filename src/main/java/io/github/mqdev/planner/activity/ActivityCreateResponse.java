@@ -1,4 +1,4 @@
-package io.github.mqdev.planner.activities;
+package io.github.mqdev.planner.activity;
 
 import java.util.UUID;
 

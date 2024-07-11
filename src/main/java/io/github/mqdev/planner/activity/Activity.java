@@ -1,4 +1,4 @@
-package io.github.mqdev.planner.activities;
+package io.github.mqdev.planner.activity;
 
 import io.github.mqdev.planner.trip.Trip;
 import jakarta.persistence.*;
