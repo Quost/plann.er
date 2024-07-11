@@ -40,8 +40,8 @@ public class Trip {
     @Column(name = "owner_email", nullable = false)
     private String ownerEmail;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Trip(TripRequestPayload payload) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -51,7 +51,7 @@ public class Trip {
         this.endsAt = LocalDateTime.parse(payload.ends_at(), formatter);
         this.ownerName = payload.owner_name();
         this.ownerEmail = payload.owner_email();
-        this.createdAt = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
+        this.createdAt = LocalDateTime.now();
     }
 
     public void update(TripRequestPayload updatedTrip) {

@@ -5,5 +5,5 @@ CREATE TABLE participants (
     email VARCHAR(255) NOT NULL,
     is_confirmed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (trip_id) REFERENCES trips(id)
+    FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE
 )
