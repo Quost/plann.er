@@ -26,7 +26,7 @@ public class TripController {
         try {
             Trip trip = new Trip(tripRequest);
             var savedTrip = tripRepository.save(trip);
-            participantService.registerParticipantsToTrip(tripRequest.emails_to_invite(), savedTrip.getId());
+            participantService.registerParticipantsToTrip(tripRequest.emails_to_invite(), savedTrip);
             return ResponseEntity.ok(new TripCreateResponse(savedTrip.getId(), savedTrip.getCreatedAt()));
         } catch (Exception e) {
             System.out.println(e);
