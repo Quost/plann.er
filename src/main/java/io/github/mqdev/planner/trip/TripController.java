@@ -1,12 +1,11 @@
 package io.github.mqdev.planner.trip;
 
-import io.github.mqdev.planner.participant.ParticipantCreateResponse;
-import io.github.mqdev.planner.participant.ParticipantRequestPayload;
-import io.github.mqdev.planner.participant.ParticipantService;
+import io.github.mqdev.planner.participant.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -89,6 +88,13 @@ public class TripController {
         }
 
         return ResponseEntity.ok(participantResponse);
+    }
+
+    @GetMapping("/{tripId}/participants")
+    public ResponseEntity<List<ParticipantData>> getParticipants(@PathVariable UUID tripId) {
+        List<ParticipantData> participantList = participantService.getAllTripParticipants(tripId);
+
+        return ResponseEntity.ok(participantList);
     }
 
 }
