@@ -23,7 +23,7 @@ public class Participant {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @Column(name = "is_confirmed", nullable = false)

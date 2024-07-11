@@ -1,7 +1,7 @@
 CREATE TABLE participants (
     id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
     trip_id UUID NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     is_confirmed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
