@@ -3,6 +3,9 @@ package io.github.mqdev.planner.link;
 import io.github.mqdev.planner.trip.Trip;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class LinkService {
 
@@ -16,5 +19,11 @@ public class LinkService {
         Link link = new Link(linkRequestPayload.title(), linkRequestPayload.url(), trip);
         linkRepository.save(link);
         return new LinkCreateResponse(link.getId());
+    }
+
+    public List<LinkData> getAllTripLinks(UUID tripId) {
+        return linkRepository.findByTripId(tripId).stream()
+                .map(link -> new LinkData(link.getId(), link.getTitle(), link.getUrl()))
+                .toList();
     }
 }

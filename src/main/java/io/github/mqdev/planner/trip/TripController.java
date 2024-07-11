@@ -5,6 +5,7 @@ import io.github.mqdev.planner.activity.ActivityData;
 import io.github.mqdev.planner.activity.ActivityRequestPayload;
 import io.github.mqdev.planner.activity.ActivityService;
 import io.github.mqdev.planner.link.LinkCreateResponse;
+import io.github.mqdev.planner.link.LinkData;
 import io.github.mqdev.planner.link.LinkRequestPayload;
 import io.github.mqdev.planner.link.LinkService;
 import io.github.mqdev.planner.participant.*;
@@ -140,5 +141,12 @@ public class TripController {
         LinkCreateResponse linkResponse = linkService.createLink(payload, updatedTrip);
 
         return ResponseEntity.ok(linkResponse);
+    }
+
+    @GetMapping("/{tripId}/links")
+    public ResponseEntity<List<LinkData>> getLinks(@PathVariable UUID tripId) {
+        List<LinkData> linkList = linkService.getAllTripLinks(tripId);
+
+        return ResponseEntity.ok(linkList);
     }
 }
