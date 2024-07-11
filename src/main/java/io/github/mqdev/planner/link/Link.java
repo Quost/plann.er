@@ -35,4 +35,9 @@ public class Link {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    public Link(String title, String url, Trip trip) {
+        this.title = title;
+        this.url = url;
+        this.trip = trip;
+    }
 }

@@ -4,6 +4,9 @@ import io.github.mqdev.planner.activity.ActivityCreateResponse;
 import io.github.mqdev.planner.activity.ActivityData;
 import io.github.mqdev.planner.activity.ActivityRequestPayload;
 import io.github.mqdev.planner.activity.ActivityService;
+import io.github.mqdev.planner.link.LinkCreateResponse;
+import io.github.mqdev.planner.link.LinkRequestPayload;
+import io.github.mqdev.planner.link.LinkService;
 import io.github.mqdev.planner.participant.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +21,15 @@ import java.util.UUID;
 public class TripController {
 
     private final ParticipantService participantService;
-
     private final TripRepository tripRepository;
-
     private final ActivityService activityService;
+    private final LinkService linkService;
 
-    public TripController(ParticipantService participantService, TripRepository tripRepository, ActivityService activityService) {
+    public TripController(ParticipantService participantService, TripRepository tripRepository, ActivityService activityService, LinkService linkService) {
         this.participantService = participantService;
         this.tripRepository = tripRepository;
         this.activityService = activityService;
+        this.linkService = linkService;
     }
 
     @PostMapping
@@ -125,4 +128,17 @@ public class TripController {
         return ResponseEntity.ok(activityList);
     }
 
+    @PostMapping("/{tripId}/links")
+    public ResponseEntity<LinkCreateResponse> createLink(@PathVariable UUID tripId, @RequestBody LinkRequestPayload payload) {
+        Optional<Trip> trip = tripRepository.findById(tripId);
+
+        if (trip.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Trip updatedTrip = trip.get();
+        LinkCreateResponse linkResponse = linkService.createLink(payload, updatedTrip);
+
+        return ResponseEntity.ok(linkResponse);
+    }
 }
