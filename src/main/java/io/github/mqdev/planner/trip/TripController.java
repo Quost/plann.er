@@ -1,5 +1,7 @@
 package io.github.mqdev.planner.trip;
 
+import io.github.mqdev.planner.participant.ParticipantCreateResponse;
+import io.github.mqdev.planner.participant.ParticipantRequestPayload;
 import io.github.mqdev.planner.participant.ParticipantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,4 +71,24 @@ public class TripController {
 
         return ResponseEntity.ok(this.tripRepository.save(confirmedTrip));
     }
+
+    @PostMapping("/{tripId}/invite")
+    public ResponseEntity<ParticipantCreateResponse> inviteParticipant(@PathVariable UUID tripId, @RequestBody ParticipantRequestPayload payload) {
+        Optional<Trip> trip = tripRepository.findById(tripId);
+
+        if (trip.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Trip updatedTrip = trip.get();
+        String email = payload.email();
+        ParticipantCreateResponse participantResponse = participantService.registerParticipantToTrip(email, updatedTrip);
+
+        if(updatedTrip.isConfirmed()) {
+            this.participantService.triggerConfirmationEmailToParticipant(email);
+        }
+
+        return ResponseEntity.ok(participantResponse);
+    }
+
 }
