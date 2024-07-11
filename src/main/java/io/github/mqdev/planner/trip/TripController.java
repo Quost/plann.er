@@ -1,9 +1,9 @@
 package io.github.mqdev.planner.trip;
 
-import io.github.mqdev.planner.activities.ActivityCreateResponse;
-import io.github.mqdev.planner.activities.ActivityData;
-import io.github.mqdev.planner.activities.ActivityRequestPayload;
-import io.github.mqdev.planner.activities.ActivityService;
+import io.github.mqdev.planner.activity.ActivityCreateResponse;
+import io.github.mqdev.planner.activity.ActivityData;
+import io.github.mqdev.planner.activity.ActivityRequestPayload;
+import io.github.mqdev.planner.activity.ActivityService;
 import io.github.mqdev.planner.participant.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
