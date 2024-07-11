@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
@@ -34,4 +35,11 @@ public class Activity {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public Activity(String title, String occursAt, Trip trip) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        this.title = title;
+        this.occursAt = LocalDateTime.parse(occursAt, formatter);
+        this.trip = trip;
+    }
 }
